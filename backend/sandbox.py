@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+import sys
 from typing import Dict, List, Any
 
 class WorkspaceSandbox:
@@ -93,7 +94,12 @@ class WorkspaceSandbox:
             }
 
         # We run the command inside the workspace directory so imports work relative to workspace
-        cmd = ["uv", "run", "python", "-m", "unittest", test_file]
+        # Check if uv is installed, otherwise fallback to the running python interpreter
+        if shutil.which("uv"):
+            cmd = ["uv", "run", "python", "-m", "unittest", test_file]
+        else:
+            python_exe = sys.executable or "python"
+            cmd = [python_exe, "-m", "unittest", test_file]
         
         try:
             result = subprocess.run(

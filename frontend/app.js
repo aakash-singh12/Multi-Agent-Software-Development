@@ -1,5 +1,5 @@
 // API endpoints and WebSocket configuration
-const WS_URL = `ws://${window.location.host}/ws`;
+const WS_URL = `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}/ws`;
 let socket = null;
 let currentFiles = [];
 let selectedFilePath = "";

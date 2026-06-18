@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: advocate-sdlc-system
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python backend/main.py
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: PYTHONUNBUFFERED
+        value: "1"
