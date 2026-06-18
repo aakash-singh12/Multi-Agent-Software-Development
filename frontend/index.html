@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ADVOCATE // Autonomous Multi-Agent SDLC</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="glass-bg"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="main-header glass-card">
+            <div class="logo">
+                <i class="fa-solid fa-microchip-ai logo-icon"></i>
+                <div class="logo-text">
+                    <h1>ADVOCATE</h1>
+                    <span>AUTONOMOUS MULTI-AGENT SDLC SYSTEM</span>
+                </div>
+            </div>
+            <div class="system-status">
+                <span class="status-indicator online"></span>
+                <span class="status-text">SYSTEM READY</span>
+            </div>
+            <div class="header-actions">
+                <button id="settings-btn" class="btn btn-secondary"><i class="fa-solid fa-key"></i> Keys</button>
+                <button id="reset-btn" class="btn btn-danger"><i class="fa-solid fa-rotate-left"></i> Clear System</button>
+            </div>
+        </header>
+
+        <!-- MAIN LAYOUT -->
+        <main class="main-content">
+            <!-- LEFT COLUMN: CONTROLS & LOGS -->
+            <section class="left-panel">
+                <!-- PANEL: INPUT CONTROLS -->
+                <div class="glass-card control-card">
+                    <h2 class="section-title"><i class="fa-solid fa-terminal"></i> Command Center</h2>
+                    
+                    <div class="form-group">
+                        <label for="prompt-input">Decompose & Build Feature Request</label>
+                        <textarea id="prompt-input" placeholder="Describe the feature you want built (e.g. 'Implement a JWT authorization decorator in auth.py with token validation tests...')"></textarea>
+                    </div>
+
+                    <div class="mode-selectors">
+                        <div class="selector-group">
+                            <label for="provider-select">Model Backbone</label>
+                            <select id="provider-select">
+                                <option value="simulation">Simulation / Demo Mode</option>
+                                <option value="anthropic">Anthropic (Claude 3.5 Sonnet)</option>
+                                <option value="openai">OpenAI (GPT-4o)</option>
+                                <option value="gemini">Google Gemini (Gemini 2.5 Flash)</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="cross-model-check" checked>
+                            <label for="cross-model-check">Cross-Model Review <i class="fa-solid fa-circle-info" title="Uses a different reviewer model (e.g., Claude Haiku reviews Sonnet) to catch blind spots."></i></label>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="run-btn" class="btn btn-primary btn-block"><i class="fa-solid fa-play"></i> Run Orchestration</button>
+                    </div>
+
+                    <div class="divider"><span>OR RUN BUILT-IN DEMO</span></div>
+
+                    <div class="demo-buttons">
+                        <button class="btn btn-demo" data-demo="lru_cache">
+                            <i class="fa-solid fa-box-archive"></i> Thread-Safe LRU Cache
+                            <span class="demo-tag reject">Loops Reviewer</span>
+                        </button>
+                        <button class="btn btn-demo" data-demo="rate_limiter">
+                            <i class="fa-solid fa-gauge-high"></i> Token Bucket Limiter
+                            <span class="demo-tag fail">Loops Tester</span>
+                        </button>
+                        <button class="btn btn-demo" data-demo="jwt_auth">
+                            <i class="fa-solid fa-shield-halved"></i> JWT Authorization
+                            <span class="demo-tag pass">Direct Pass</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PANEL: INTERACTIVE WORKFLOW NODES -->
+                <div class="glass-card workflow-card">
+                    <h2 class="section-title"><i class="fa-solid fa-network-wired"></i> Agent Routing Flow</h2>
+                    <div class="workflow-canvas">
+                        <div class="agent-node" id="node-planner" data-agent="planner">
+                            <div class="node-icon"><i class="fa-solid fa-brain"></i></div>
+                            <div class="node-info">
+                                <h3>Planner</h3>
+                                <span>Decomposing</span>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="agent-node" id="node-engineer" data-agent="engineer">
+                            <div class="node-icon"><i class="fa-solid fa-code"></i></div>
+                            <div class="node-info">
+                                <h3>Engineer</h3>
+                                <span>Coding</span>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="agent-node" id="node-reviewer" data-agent="reviewer">
+                            <div class="node-icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
+                            <div class="node-info">
+                                <h3>Reviewer</h3>
+                                <span>Critiquing</span>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="agent-node" id="node-tester" data-agent="tester">
+                            <div class="node-icon"><i class="fa-solid fa-vial-circle-check"></i></div>
+                            <div class="node-info">
+                                <h3>Tester</h3>
+                                <span>Verifying</span>
+                            </div>
+                        </div>
+                        <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+                        <div class="agent-node" id="node-documenter" data-agent="documenter">
+                            <div class="node-icon"><i class="fa-solid fa-file-signature"></i></div>
+                            <div class="node-info">
+                                <h3>Documenter</h3>
+                                <span>Releasing</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PANEL: AGENT LOGS TIMELINE -->
+                <div class="glass-card logs-card">
+                    <h2 class="section-title"><i class="fa-solid fa-clipboard-list"></i> Communication Bus</h2>
+                    <div id="logs-timeline" class="logs-container">
+                        <div class="timeline-empty">
+                            <i class="fa-solid fa-circle-nodes"></i>
+                            <p>Launch an orchestration run to monitor active agent communication events.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT COLUMN: WORKSPACE & OUTPUT -->
+            <section class="right-panel">
+                <!-- WORKSPACE TABS -->
+                <div class="tabs-container glass-card">
+                    <div class="tabs-header">
+                        <button class="tab-btn active" data-tab="code-tab"><i class="fa-solid fa-folder-open"></i> Workspace Code</button>
+                        <button class="tab-btn" data-tab="terminal-tab"><i class="fa-solid fa-terminal"></i> Test Shell Output</button>
+                        <button class="tab-btn" data-tab="pr-tab"><i class="fa-solid fa-code-pull-request"></i> Pull Request description</button>
+                    </div>
+
+                    <!-- TAB: WORKSPACE FILE EXPLORER & VIEWER -->
+                    <div class="tab-content active" id="code-tab">
+                        <div class="workspace-layout">
+                            <aside class="file-sidebar">
+                                <div class="sidebar-title">FILE EXPLORER</div>
+                                <ul id="file-tree" class="file-tree-list">
+                                    <li class="empty-tree">No files written yet</li>
+                                </ul>
+                            </aside>
+                            <div class="code-editor-area">
+                                <div class="editor-header">
+                                    <span id="active-filename"><i class="fa-regular fa-file-code"></i> select_a_file.py</span>
+                                    <div class="editor-badges">
+                                        <span id="file-action-badge" class="badge">CREATE</span>
+                                    </div>
+                                </div>
+                                <div class="diff-view-toggle">
+                                    <button id="view-code-btn" class="active">Source Code</button>
+                                    <button id="view-diff-btn">Code Changes (Diff)</button>
+                                </div>
+                                <div class="code-viewport">
+                                    <pre id="code-viewer-pre"><code id="code-viewer"># Select a file from the explorer sidebar to view implemented source code.</code></pre>
+                                    <div id="diff-viewer" class="hidden">
+                                        <!-- Renders inline diffs here -->
+                                        <div class="diff-empty">Select a modified file to view code modifications.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: RUNTIME TESTS TERMINAL -->
+                    <div class="tab-content" id="terminal-tab">
+                        <div class="terminal-container">
+                            <div class="terminal-header">
+                                <div class="term-dot dot-red"></div>
+                                <div class="term-dot dot-yellow"></div>
+                                <div class="term-dot dot-green"></div>
+                                <span class="term-title">tester_sandbox_shell.bat</span>
+                            </div>
+                            <div id="terminal-body" class="terminal-body">
+                                <span class="term-prompt">C:\workspace&gt;</span> <span class="term-text gray">Waiting for automated testing logs...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB: GENERATED PULL REQUEST -->
+                    <div class="tab-content" id="pr-tab">
+                        <div class="pr-release-container">
+                            <div class="pr-header-card">
+                                <div class="pr-title-info">
+                                    <span class="pr-status-badge"><i class="fa-solid fa-code-commit"></i> MERGE READY</span>
+                                    <h3 id="pr-headline-title">Pull Request Draft Summary</h3>
+                                    <p>Autogenerated by ADVOCATE Documenter Agent.</p>
+                                </div>
+                                <button id="merge-pr-btn" class="btn btn-success"><i class="fa-solid fa-code-merge"></i> Merge PR Branch</button>
+                            </div>
+                            <div class="pr-body-markdown" id="pr-markdown-body">
+                                <div class="markdown-empty">
+                                    <i class="fa-solid fa-code-pull-request"></i>
+                                    <p>Pull Request release notes will display here once generated by the Documenter Agent.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODAL: SETTINGS (KEYS SETUP) -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="glass-card modal-card">
+            <div class="modal-header">
+                <h2><i class="fa-solid fa-gears"></i> Developer Settings</h2>
+                <button id="close-modal-btn" class="modal-close"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-info-text">Enter your developer API keys below to run real multi-agent code generations. Keys are passed directly in HTTP requests and are never stored on external servers.</p>
+                
+                <div class="form-group">
+                    <label for="key-anthropic">Anthropic API Key (Claude 3.5 Sonnet / Haiku)</label>
+                    <input type="password" id="key-anthropic" placeholder="sk-ant-...">
+                </div>
+
+                <div class="form-group">
+                    <label for="key-openai">OpenAI API Key (GPT-4o / GPT-4o-mini)</label>
+                    <input type="password" id="key-openai" placeholder="sk-proj-...">
+                </div>
+
+                <div class="form-group">
+                    <label for="key-gemini">Google Gemini API Key (Gemini 2.5 Flash / Pro)</label>
+                    <input type="password" id="key-gemini" placeholder="AIzaSy...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-keys-btn" class="btn btn-primary"><i class="fa-solid fa-circle-check"></i> Save Credentials</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JS Logic Script -->
+    <script src="/static/app.js"></script>
+</body>
+</html>
